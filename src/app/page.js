@@ -1,113 +1,140 @@
-import Image from 'next/image'
+import FilterablePeopleList from "@/components/FilterablePeopleList";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.js</code>
+    <main className="px-4 py-8 md:py-12 md:px-16 lg:px-48">
+      <h1 className="text-3xl lg:text-5xl font-bold mb-12">
+        List Keys Behavior in React
+      </h1>
+      <p className="my-8">React Documentation says:</p>
+      <p className="m-4">
+        "You need to give each array item a key — a string or a number that
+        uniquely identifies it among other items in that array."
+      </p>
+      <p className="m-4">
+        "Keys tell React which array item each component corresponds to, so that
+        it can match them up later. This becomes important if your array items
+        can move (e.g. due to sorting), get inserted, or get deleted. A
+        well-chosen key helps React infer what exactly has happened, and make
+        the correct updates to the DOM tree."
+      </p>
+      <p className="my-8">
+        But have you wondered what really happens when using index or a unique
+        ID as the key in a bit more visual detail? Let's check it out.
+      </p>
+
+      <p className="mb-12">
+        <span className="mr-2 font-medium underline underline-offset-2 text-orange-500">
+          Note:
+        </span>
+        Only re-rendering of a component is visualized with a background-color
+        animation. First render is not visualized.
+      </p>
+
+      <section className="my-8">
+        <h2 className="text-2xl lg:text-3xl leading-loose font-semibold">
+          Without Memo
+        </h2>
+
+        <p className="my-4">
+          First, let's check the behavior using the&nbsp;
+          <span className="px-2 py-1 bg-sky-700 rounded-md text-base lg:text-lg">
+            {"<Person />"}
+          </span>
+          &nbsp;component without memoization.
         </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+
+        <h3 className="mt-8 text-xl lg:text-2xl font-medium">Filtering:</h3>
+        <p className="my-4">
+          When you filter only active people in both lists, the filtered out
+          components are removed and the active people's components re-render.
+          Makes sense.
+        </p>
+        <p className="my-4">
+          But when you uncheck the filter, you'll notice a difference. With ID
+          as key, the Caroline's and Singleton's components re-render and new
+          components are created for the other people. However, with Index as
+          the key, Elizabeth's and Caroline's components are re-rendered but
+          shouldn't the Singleton's component have re-rendered and Elizabeth's
+          component newly created? The reason is since the key, which was the
+          index, didn't change for the first two components, React assumes it's
+          the same component whose props changed. So it re-renders the component
+          according to the new props. These are very basic components, so it
+          doesn't really matter but if each card were to make any 3rd party
+          requests or some sort of computation they would have to redo the
+          request or the computation according to the new person's profile as
+          well as the previous one's, which isn't very efficient.
+        </p>
+
+        <h3 className="mt-8 text-xl lg:text-2xl font-medium">Ordering:</h3>
+        <p className="my-4">
+          When you order the list or revert it, it feels the same in both lists
+          as all the components re-render but the data loss in the ordered
+          components in Index Key List is still happening like we discussed
+          above.
+        </p>
+
+        <div className="flex flex-row flex-wrap justify-around mt-8 gap-4">
+          <FilterablePeopleList id="index-key-list" />
+          <FilterablePeopleList shouldUseIDAsKey id="id-key-list" />
         </div>
-      </div>
+      </section>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      <section className="my-8">
+        <h2 className="text-2xl lg:text-3xl leading-loose font-semibold">
+          With Memo
+        </h2>
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+        <p className="my-4">
+          Now, let's check the behavior when we use a memoized&nbsp;
+          <span className="px-2 py-1 bg-sky-700 rounded-md text-base lg:text-lg">
+            {"<Person />"}
+          </span>
+          &nbsp;component.
+        </p>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+        <h3 className="mt-8 text-xl lg:text-2xl font-medium">Filtering:</h3>
+        <p className="my-4">
+          In ID Key List, since we are using a memoized component now, the
+          components don't re-render when applying or unapplying the filter.
+        </p>
+        <p className="my-4">
+          However, in Index Key List, the filtered components re-render because
+          React is only going to render the components with keys as 0 and 1 (the
+          indices) and the component's at those indices have different props
+          now. So, even if we used a memoized person, we didn't benefit from it
+          because we used index as the key and lost all our (hypothetical) data
+          from those components and have to redo it again.
+        </p>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
+        <h3 className="mt-8 text-xl lg:text-2xl font-medium">Ordering:</h3>
+        <p className="my-4">
+          When we apply ordering to the Index Key List, only the items whose
+          positions changed and hence that indices' components' props,
+          re-rendered. But in ID Key List, even applying or unapplying ordering
+          didn't cause any component to re-render.
+        </p>
+        <div className="flex flex-row flex-wrap justify-around mt-8 gap-4">
+          <FilterablePeopleList shouldUseMemoPerson id="memo-index-key-list" />
+          <FilterablePeopleList
+            shouldUseIDAsKey
+            shouldUseMemoPerson
+            id="memo-id-key-list"
+          />
+        </div>
+      </section>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      <section className="my-8">
+        <h2 className="text-2xl lg:text-3xl leading-loose font-semibold">
+          Conclusion:
+        </h2>
+
+        <p className="my-4">
+          If you need to render a list of items where their order might change
+          or a filter may be applied, you should consider using the item's
+          unique ID as the key along with memo.
+        </p>
+      </section>
     </main>
-  )
+  );
 }
