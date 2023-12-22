@@ -1,4 +1,4 @@
-export default function Switch({ id, label, onChange }) {
+export default function Switch({ id, label, value = false, onChange }) {
   return (
     <div className="flex gap-2">
       <input
@@ -8,6 +8,7 @@ export default function Switch({ id, label, onChange }) {
           const isChecked = event.target.checked;
           onChange(isChecked);
         }}
+        checked={value}
       />
       <label htmlFor={id} className="text-base">
         {label}

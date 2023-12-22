@@ -34,11 +34,13 @@ export default function FilterablePeopleList({
         <Switch
           id={`${id}-filter`}
           label="Show active people only"
+          value={isActiveOnly}
           onChange={(isChecked) => setIsActiveOnly(isChecked)}
         />
         <Switch
           id={`${id}-order`}
           label="Order by age"
+          value={orderByAge}
           onChange={(isChecked) => setOrderByAge(isChecked)}
         />
       </div>

@@ -20,7 +20,10 @@ function Person({ isActive, name, age, gender }) {
         )}
       </div>
       <div className="flex items-center">
-        <Switch onChange={(isChecked) => setIsChecked(isChecked)} />
+        <Switch
+          value={isChecked}
+          onChange={(isChecked) => setIsChecked(isChecked)}
+        />
       </div>
     </div>
   );
