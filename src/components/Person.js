@@ -4,7 +4,11 @@ import Switch from "./Switch";
 
 function Person({ isActive, name, age, gender }) {
   const [isChecked, setIsChecked] = useState(false);
-  const animateRerender = useAnimateRerender();
+  const animateRerender = useAnimateRerender(
+    "animate-rerender-1",
+    "animate-rerender-2",
+    "animate-first-render"
+  );
 
   return (
     <div className={`flex flex-row py-4 px-4 ${animateRerender}`}>

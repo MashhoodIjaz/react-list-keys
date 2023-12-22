@@ -1,20 +1,26 @@
 import { useEffect, useRef } from "react";
 
-export default function useAnimateRerender() {
+export default function useAnimateRerender(
+  rerenderTransition1,
+  rerenderTransition2,
+  firstRenderTransition = ""
+) {
   const firstRenderRef = useRef(true);
-  const appliedClassRef = useRef("");
+  const appliedClassRef = useRef(firstRenderTransition);
 
   useEffect(() => {
     appliedClassRef.current =
-      appliedClassRef.current === "animate-rerender-1"
-        ? "animate-rerender-2"
-        : "animate-rerender-1";
+      appliedClassRef.current === rerenderTransition1
+        ? rerenderTransition2
+        : rerenderTransition1;
   });
 
   useEffect(() => {
     firstRenderRef.current = false;
-    appliedClassRef.current = "animate-rerender-1";
+    appliedClassRef.current = rerenderTransition1;
   }, []);
 
-  return firstRenderRef.current ? " " : appliedClassRef.current;
+  return firstRenderRef.current
+    ? firstRenderTransition
+    : appliedClassRef.current;
 }

@@ -10,6 +10,10 @@
   animation: animate-rerender-2 1000ms ease-in-out;
 }
 
+.animate-first-render {
+  animation: animate-first-render 1000ms ease-in-out;
+}
+
 @keyframes animate-rerender-1 {
   50% {
     background-color: #ffa50060;
@@ -19,5 +23,11 @@
 @keyframes animate-rerender-2 {
   50% {
     background-color: #ffa50060;
+  }
+}
+
+@keyframes animate-first-render {
+  50% {
+    background-color: #008000;
   }
 }
