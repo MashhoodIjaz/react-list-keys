@@ -11,7 +11,10 @@ function Person({ isActive, name, age, gender }) {
   );
 
   return (
-    <div className={`flex flex-row py-4 px-4 ${animateRerender}`}>
+    <div
+      className={`flex flex-row py-4 px-4 ${animateRerender}`}
+      onClick={() => setIsChecked((checked) => !checked)}
+    >
       <div className="flex flex-col flex-1">
         <p className="">{name}</p>
         <p className="text-gray-500 text-base lg:text-lg">
