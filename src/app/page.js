@@ -27,8 +27,8 @@ export default function Home() {
         <span className="mr-2 font-medium underline underline-offset-2 text-orange-500">
           Note:
         </span>
-        Only re-rendering of a component is visualized with a background-color
-        animation. First render is not visualized.
+        First render is visualized by a green color change, and re-renders are
+        visualized by an orange color change.
       </p>
 
       <section className="my-8">
@@ -72,6 +72,30 @@ export default function Home() {
           as all the components re-render but the data loss in the ordered
           components in Index Key List is still happening like we discussed
           above.
+        </p>
+
+        <h3 className="mt-8 text-xl lg:text-2xl font-medium">
+          Internal State:
+        </h3>
+        <p className="my-4">
+          Uncheck the filter and ordering, then select Elizabeth and Caroline in
+          both tables. If you apply the order now, you'll see that in the ID key
+          list, the correct components are selected, however in the Index key
+          list, Rhea is selected instead of Caroline now. Why is that? It's
+          because as mentioned earlier, in index key list, react assumes that
+          the 2nd component (previouly Caroline, now Rhea) is still the same
+          component with some props changed, so it updates the component
+          according to the new props and maintains its state.
+        </p>
+        <p className="my-4">
+          What this is showing is that the actual component instance in the list
+          on the right is getting properly tied to the contact data. This is
+          crucial for stateful components because if you initialized useState
+          with something, it's not going to reinitialize unless you destroy the
+          components (which isn't happening here). So if you've got some state
+          dependent on the component having Caroline's data, and then it
+          re-sorts, now the "Caroline" component actually has Rhea's data in it
+          but with Caroline's state.
         </p>
 
         <div className="flex flex-row flex-wrap justify-around mt-8 gap-4">
@@ -130,9 +154,12 @@ export default function Home() {
         </h2>
 
         <p className="my-4">
-          If you need to render a list of items where their order might change
-          or a filter may be applied, you should consider using the item's
-          unique ID as the key along with memo.
+          Using the unique key instead of the index keeps the state coupled to
+          the correct data, rather than to the position in the list. If you need
+          to render a list of items, which have some internal state, and their
+          order might change or a filter may be applied, you should use the
+          item's unique ID as the key (optionally wrapping item component in
+          memo() if you want to prevent re-renders).
         </p>
       </section>
     </main>
