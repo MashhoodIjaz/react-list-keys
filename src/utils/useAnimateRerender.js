@@ -34,9 +34,12 @@ export default function useAnimateRerender(rerenderClass, firstRenderClass) {
 
     return () => {
       elementRef.current?.classList.remove(rerenderClass);
-      for (let animation of elementRef.current?.getAnimations()) {
-        if (animation.animationName === rerenderClass) {
-          animation.pause();
+      const animations = elementRef.current?.getAnimations();
+      if (animations && animations.length) {
+        for (let animation of animations) {
+          if (animation.animationName === rerenderClass) {
+            animation.pause();
+          }
         }
       }
     };
