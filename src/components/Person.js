@@ -4,16 +4,16 @@ import Switch from "./Switch";
 
 function Person({ isActive, name, age, gender }) {
   const [isChecked, setIsChecked] = useState(false);
-  const animateRerender = useAnimateRerender(
-    "animate-rerender-1",
-    "animate-rerender-2",
+  const elementRef = useAnimateRerender(
+    "animate-rerender",
     "animate-first-render"
   );
 
   return (
     <div
-      className={`flex flex-row py-4 px-4 ${animateRerender}`}
+      className="flex flex-row py-4 px-4"
       onClick={() => setIsChecked((checked) => !checked)}
+      ref={elementRef}
     >
       <div className="flex flex-col flex-1">
         <p className="">{name}</p>
